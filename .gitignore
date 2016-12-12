@@ -1,0 +1,5 @@
+# local build settings
+build/local.properties
+build/reports/
+tests/_output/
+vendor/

@@ -1,0 +1,6 @@
+build export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+composer.* export-ignore
+
+*.php text eol=lf

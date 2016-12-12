@@ -1,0 +1,8 @@
+default:
+    path:
+        extensions: php
+    logging:
+        report:
+            html: ./build/reports/phpmetrics/phpmetrics.html
+        violations:
+            xml: ./build/reports/phpmetrics/violations.xml

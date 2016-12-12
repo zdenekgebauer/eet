@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Gst">
+	<description>Gst coding standards version 0.0.1</description>
+	<rule ref="Generic.Debug.JSHint"/>
+	<rule ref="Generic.Classes.DuplicateClassName"/>
+	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+	<rule ref="Generic.Commenting.Todo"/>
+	<rule ref="Generic.Commenting.Fixme"/>
+	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
+	<rule ref="Generic.Files.ByteOrderMark"/>
+	<rule ref="Generic.Files.InlineHTML"/>
+	<rule ref="Generic.Files.LineEndings">
+		<properties>
+			<property name="eolChar" value="\n"/>
+		</properties>
+	</rule>
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+			<property name="absoluteLineLimit" value="121"/>
+		</properties>
+	</rule>
+	<rule ref="Generic.Files.OneClassPerFile"/>
+	<rule ref="Generic.Files.OneInterfacePerFile"/>
+	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+	<rule ref="Generic.Functions.CallTimePassByReference"/>
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	<rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+	<rule ref="Generic.Metrics.CyclomaticComplexity">
+		<properties>
+			<property name="complexity" value="20"/>
+			<property name="absoluteComplexity" value="30"/>
+		</properties>
+	</rule>
+	<rule ref="Generic.Metrics.NestingLevel">
+		<properties>
+			<property name="nestingLevel" value="4"/>
+			<property name="absoluteNestingLevel" value="7"/>
+		</properties>
+	</rule>
+	<rule ref="Generic.NamingConventions.CamelCapsFunctionName"/>
+	<rule ref="Generic.NamingConventions.ConstructorName"/>
+<!--	<rule ref="Generic.NamingConventions.UpperCaseConstantName"/> už je Generic.PHP.LowerCaseConstant -->
+	<rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+	<rule ref="Generic.PHP.DeprecatedFunctions"/>
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+
+	<rule ref="Generic.PHP.LowerCaseKeyword"/>
+	<rule ref="Generic.PHP.NoSilencedErrors"/>
+    <rule ref="Generic.PHP.LowerCaseConstant"/>
+	<rule ref="Generic.PHP.Syntax"/>
+	<rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+
+	<rule ref="PEAR.Commenting.InlineComment"/>
+	<rule ref="PEAR.ControlStructures.ControlSignature"/>
+	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
+	<rule ref="PEAR.Formatting.MultiLineAssignment"/>
+	<rule ref="PEAR.Functions.FunctionCallSignature">
+		<exclude-pattern>*.js</exclude-pattern>
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>
+<!--	<rule ref="PEAR.Functions.FunctionDeclaration"/>  blbe hlasi odsazovani zavorek funkci-->
+	<rule ref="PEAR.Functions.ValidDefaultValue"/>
+<!--	<rule ref="PEAR.NamingConventions.ValidFunctionName"/> vynucujue _ u privatnich metod -->
+	<rule ref="PEAR.WhiteSpace.ObjectOperatorIndent">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>
+<!--	<rule ref="PEAR.WhiteSpace.ScopeClosingBrace"/> blbe hlasi odsazovani case - break -->
+<!--	<rule ref="MySource.NamingConventions.ValidVariableName"/> nefunguje s phar verzi -->
+	<rule ref="PSR2.Classes.PropertyDeclaration"/>
+	<rule ref="PSR2.ControlStructures.ControlStructureSpacing"/>
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration"/>
+<!--	<rule ref="PSR2.ControlStructures.SwitchDeclaration">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>-->
+	<rule ref="PSR2.Methods.MethodDeclaration"/>
+	<rule ref="PSR2.Namespaces.NamespaceDeclaration"/>
+	<rule ref="PSR2.Namespaces.UseDeclaration"/>
+
+	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
+	<rule ref="Squiz.Classes.SelfMemberReference"/>
+	<rule ref="Squiz.Commenting.DocCommentAlignment"/>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
+	<rule ref="Squiz.ControlStructures.ControlSignature"/>
+	<rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+	<rule ref="Squiz.ControlStructures.ForLoopDeclaration"/>
+	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
+
+<!--	<rule ref="Squiz.ControlStructures.SwitchDeclaration">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule> blbe pocita odsazeni s taby , stejne jako rule z PSR2 -->
+
+	<rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">
+		<properties>
+			<property name="equalsSpacing" value="1"/>
+		</properties>
+	</rule>
+	<rule ref="Squiz.Functions.GlobalFunction"/>
+	<rule ref="Squiz.Functions.LowercaseFunctionKeywords"/>
+<!--	<rule ref="Squiz.PHP.DisallowMultipleAssignments"/> neprojde napr (($result = mysqli_query($conn, $sql)) === FALSE)  -->
+	<rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
+	<rule ref="Squiz.PHP.Eval"/>
+	<rule ref="Squiz.PHP.GlobalKeyword"/>
+	<rule ref="Squiz.PHP.InnerFunctions"/>
+	<rule ref="Squiz.PHP.LowercasePHPFunctions"/>
+	<rule ref="Squiz.PHP.NonExecutableCode"/>
+	<rule ref="Squiz.Scope.MemberVarScope"/>
+	<rule ref="Squiz.Scope.MethodScope"/>
+	<rule ref="Squiz.Scope.StaticThisUsage"/>
+	<rule ref="Squiz.Strings.DoubleQuoteUsage"/>
+	<rule ref="Squiz.Strings.EchoedStrings"/>
+	<rule ref="Squiz.WhiteSpace.CastSpacing"/>
+	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+<!--	<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/> hlasi mezeru pred odsazenym prirazenim pomoci fluent -->
+	<rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+	<rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
+	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+	<rule ref="Zend.Files.ClosingTag"/>
+
+</ruleset>

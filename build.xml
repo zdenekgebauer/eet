@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Eet" default="build">
+
+	<property name="dir.src" value="${project.basedir}/src" />
+	<property name="dir.report" value="${project.basedir}/build/reports"/>
+	<property name="dir.report.codeception" value="${project.basedir}/tests/_output"/>
+	<property name="dir.report.phpmetrics" value="${dir.report}/phpmetrics"/>
+	<property name="dir.report.apigen" value="${dir.report}/apigen"/>
+	<property name="dir.report.phpdoc" value="${dir.report}/phpdoc"/>
+
+	<property name="exec.php" value="php.exe"/>
+	<property name="exec.codecept" value="codecept"/>
+	<property name="exec.phpcs" value="phpcs"/>
+	<property name="phpcs.ignore" value="*/vendor/*,*/tests/*"/>
+	<property name="exec.phpcbf" value="phpcbf"/>
+	<property name="exec.phpmd" value="phpmd"/>
+	<property name="exec.phplint" value="parallel-lint"/>
+	<property name="exec.phpmetrics" value="phpmetrics"/>
+	<property name="exec.phpcpd" value="phpcpd"/>
+	<property name="exec.apigen" value="apigen"/>
+	<property file="${project.basedir}/build/local.properties" override="true"/>
+
+	<target name="build" depends="standards,test,doc"/>
+	<target name="standards" depends="phplint,phpcs,phpmd,phpcpd"/>
+	<target name="doc" depends="phpmetrics,apigen,phpdoc"/>
+
+	<target name="test_unit" description="unit tests" depends="clean_tests_reports">
+		<exec command="${exec.codecept} run unit --html --coverage-html" dir="${project.basedir}" logoutput="true" checkreturn="true"/>
+	</target>
+
+	<target name="test_integration" description="unit tests" depends="clean_tests_reports">
+		<exec command="${exec.codecept} run integration --html --coverage-html" dir="${project.basedir}" logoutput="true" checkreturn="true"/>
+	</target>
+
+	<target name="test" description="all tests" depends="clean_tests_reports">
+		<exec command="${exec.codecept} run --html --coverage-html" dir="${project.basedir}" logoutput="true" checkreturn="true"/>
+	</target>
+
+	<target name="clean_tests_reports">
+		<delete dir="${dir.report.codeception}" includeemptydirs="true" verbose="false" quiet="true" />
+		<mkdir dir="${dir.report.codeception}" />
+	</target>
+
+	<target name="phpcs" description="codesniffer - check coding standards">
+		<mkdir dir="${dir.report}" />
+		<exec executable="${exec.phpcs}" logoutput="true" escape="false">
+			<arg value="--standard=${project.basedir}/build/ruleset_cs.xml"/>
+			<arg value="--report-file=${dir.report}/checkstyle.txt"/>
+			<arg value="--ignore=${phpcs.ignore}"/>
+			<arg path="${dir.src}"/>
+		</exec>
+	</target>
+
+	<target name="phpcbf" description="code beautifier - fix coding standards">
+		<exec executable="${exec.phpcbf}" logoutput="true" escape="true">
+			<arg value="--standard=${project.basedir}/build/ruleset_cs.xml"/>
+			<arg value="--ignore=${phpcs.ignore}"/>
+			<arg value="--suffix=.fixed"/>
+			<arg path="${dir.src}"/>
+		</exec>
+	</target>
+
+	<target name="phpmd" description="mess detector - check code">
+		<mkdir dir="${dir.report}" />
+		<exec executable="${exec.phpmd}" logoutput="true" escape="false">
+			<arg value="${dir.src}"/>
+			<arg value="html"/>
+			<arg file="build/ruleset_md.xml"/>
+			<arg line="--reportfile ${dir.report}/phpmd.html"/>
+		</exec>
+	</target>
+
+	<target name="phplint" description="phplint - check syntax">
+		<mkdir dir="${dir.report}" />
+		<exec executable="${exec.phplint}" logoutput="true" passthru="true" checkreturn="true" output="${dir.report}/phplint.txt">
+			<arg path="."/>
+			<arg value="--exclude"/>
+			<arg path="vendor/"/>
+		</exec>
+	</target>
+
+	<target name="phpmetrics" description="phpmetrics - create report about code metrics">
+		<delete dir="${dir.report.phpmetrics}" includeemptydirs="true" failonerror="false" />
+		<mkdir dir="${dir.report.phpmetrics}" />
+		<exec executable="${exec.phpmetrics}" logoutput="true">
+			<arg value="--config=${project.basedir}/build/phpmetrics.yml"/>
+			<arg value="${dir.src}"/>
+		</exec>
+	</target>
+
+	<target name="phpcpd" description="copy paste detector - check duplicates code">
+		<mkdir dir="${dir.report}" />
+		<exec executable="${exec.phpcpd}" logoutput="true">
+			<arg value="--log-pmd=${dir.report}/phpcpd.xml"/>
+			<arg value="--quiet"/>
+			<arg value="${dir.src}"/>
+		</exec>
+	</target>
+
+	<target name="apigen" description="apigen - create documentation from code">
+		<delete dir="${dir.report.apigen}" includeemptydirs="true" failonerror="false" />
+		<mkdir dir="${dir.report.apigen}" />
+		<exec executable="${exec.apigen}" output="${dir.report}/apigen.txt" logoutput="true">
+			<arg value="generate"/>
+			<arg value="-s"/>
+			<arg path="${dir.src}"/>
+			<arg value="-d"/>
+			<arg path="${dir.report.apigen}"/>
+			<arg value="--config"/>
+			<arg file="build/apigen.neon"/>
+			<arg value="--no-source-code"/>
+			<arg value="--debug"/>
+		</exec>
+	</target>
+
+	<target name="phpdoc" description="php documentor - create documentation from code">
+		<delete dir="${dir.report.phpdoc}" includeemptydirs="true" failonerror="false" />
+		<mkdir dir="${dir.report.phpdoc}" />
+		<exec executable="${exec.phpdoc}" output="${dir.report}/phpdoc.txt" logoutput="true">
+			<arg value="-d"/>
+			<arg path="${dir.src}"/>
+			<arg value="-t"/>
+			<arg path="${dir.report.phpdoc}"/>
+			<arg value="-i=vendor,tests"/>
+		</exec>
+	</target>
+
+</project>

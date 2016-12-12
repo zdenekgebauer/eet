@@ -1,0 +1,11 @@
+# priklad konfigurace pro localhost
+# soubor zkopirovat pod nazvem local.properties, v kopii upravit cesty a kopii NECOMMITOVAT!
+exec.php=c:/bin/php/php.exe
+exec.phpcs=c:/bin/phpcs.bat
+exec.phpcbf=c:/bin/phpcbf.bat
+exec.phpmd=c:/bin/phpmd.bat
+exec.phplint=c:/bin/parallel-lint.bat
+exec.phpmetrics=c:/bin/phpmetrics.bat
+exec.phpcpd=c:/bin/phpcpd.bat
+exec.phpdcd=c:/bin/phpdcd.bat
+exec.apigen=c:/bin/apigen.bat
