@@ -638,6 +638,14 @@ class Receipt {
 	}
 
 	/**
+	 * Podpisový kód poplatníka v base64
+	 * @return string
+	 */
+	public function getPkpString() {
+		return base64_encode($this->getPkp());
+	}
+
+	/**
 	 * Podpisový kód poplatníka
 	 * @param string $pkp
 	 * @return Receipt

@@ -16,10 +16,18 @@ Soubory ze složky src je třeba začlenit do aplikace pomocí autoloadu
 nebo pomocí `require_once 'src/autoload.php'` 
 
 ##Použítí 
-Přiklady použití jsou ve složce example. Příklad připojení na produkční EET používá testovací certifikát, 
+Příklady použití jsou ve složce example. Příklad připojení na produkční EET používá testovací certifikát, 
 pro ostré nasazení je třeba nastavit certifikát vystavený obchodníkovi.  
   
 ##Testy
-V adresáří tests/integration jsou testy používajíci testovací i produkční server. U těchto serverů není možné 
+V adresáři tests/integration jsou testy používajíci testovací i produkční server. U těchto serverů není možné 
 simulovat selhání spojení, proto se používá volání skriptů na lokálním serveru. Před jejich 
 spuštěním je třeba v souborech tests/_data/*.wsdl patřičně nastavit `soap:address location`.         
+
+##Changelog
+- 0.0.1
+    - první verze
+- 0.0.2 
+    - doplnění metody `Connector:sign()` pro podepsání účtenky bez odeslání
+    - doplnění metody `Receipt::getPkpString()` pro získání PHP kódu v base64
+    - drobné opravy překlepů, odstranění zbytečností.  

@@ -52,7 +52,7 @@ try {
 		echo $warning->getCode(), ':', $warning->getMessage(), '<br />';
 	}
 } catch (\Exception $exception) {
-	var_dump($exception);
+	echo 'Exception:', $exception->getCode(), '-', $exception->getMessage(), '<br />';
 }
 echo 'Request duration:', $connector->getLastRequestDuration(), ' ms<br />';
 echo 'Request:<br />', nl2br($connector->getLastRequestHeaders()), '<br />';

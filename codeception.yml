@@ -18,4 +18,6 @@ coverage:
     enabled: true
     include:
         - src/*
-
+    exclude:
+        - src/cert/*
+        - src/soap/*

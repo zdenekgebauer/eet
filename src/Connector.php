@@ -72,6 +72,32 @@ class Connector {
 	}
 
 	/**
+	 * set PKP and BKP codes on receipt
+	 * @param Receipt $receipt
+	 */
+	public function sign(Receipt $receipt) {
+		$this->serverWarnings = array();
+		$receipt
+			->setUuid(self::getUuid())
+			->setDatumOdeslani(new \DateTime('now', new \DateTimeZone($this->config->getTimezone())))
+			->validate();
+
+		$objKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type' => 'private'));
+		$objKey->loadKey($this->certificate->getPrivateKey());
+
+		$signedData = array(
+			$receipt->getDicPoplatnika(),
+			$receipt->getIdProvozovny(),
+			$receipt->getIdPokladny(),
+			$receipt->getPoradoveCislo(),
+			$receipt->getDatumTrzby()->format('c'),
+			self::formatAmount($receipt->getCelkovaTrzba())
+		);
+		$receipt->setPkp($objKey->signData(join('|', $signedData)))
+			->setBkp(wordwrap(substr(sha1($receipt->getPkp()), 0, 40), 8, '-', true));
+	}
+
+	/**
 	 * UUID v4
 	 * @return string
 	 */
@@ -122,21 +148,7 @@ class Connector {
 			'prvni_zaslani' => $receipt->isPrvniZaslani(),
 			'overeni' => $receipt->isOvereni()
 		);
-
-		$objKey = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type' => 'private'));
-		$objKey->loadKey($this->certificate->getPrivateKey());
-
-		$signedData = array(
-			$receipt->getDicPoplatnika(),
-			$receipt->getIdProvozovny(),
-			$receipt->getIdPokladny(),
-			$receipt->getPoradoveCislo(),
-			$receipt->getDatumTrzby()->format('c'),
-			self::formatAmount($receipt->getCelkovaTrzba())
-		);
-		$receipt->setPkp($objKey->signData(join('|', $signedData)))
-			->setBkp(wordwrap(substr(sha1($receipt->getPkp()), 0, 40), 8, '-', true));
-
+		$this->sign($receipt);
 		return array(
 			'Hlavicka' => $head,
 			'Data' => $this->prepareData($receipt),

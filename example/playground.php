@@ -53,7 +53,7 @@ try {
 		echo $warning->getCode(), ':', $warning->getMessage(), '<br />';
 	}
 } catch (\Exception $exception) {
-	var_dump($exception);
+	echo 'Exception:', $exception->getCode(), '-', $exception->getMessage(), '<br />';
 }
 // debug
 echo 'Request duration:', $connector->getLastRequestDuration(), ' ms<br />';
