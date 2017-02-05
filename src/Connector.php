@@ -131,7 +131,7 @@ class Connector {
 					'trace' => ($this->config->isTraceEnabled() ? 1 : 0),
 					'connection_timeout' => $this->config->getConnectionTimeout()
 				),
-				new Signer($this->certificate), $this->config->getResponseTimeout()
+				new Signer($this->certificate), $this->config->getResponseTimeout(), $this->config->isUseCurl()
 			);
 		}
 	}

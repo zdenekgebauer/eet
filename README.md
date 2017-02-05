@@ -24,6 +24,10 @@ V adresáři tests/integration jsou testy používajíci testovací i produkčn�
 simulovat selhání spojení, proto se používá volání skriptů na lokálním serveru. Před jejich 
 spuštěním je třeba v souborech tests/_data/*.wsdl patřičně nastavit `soap:address location`.         
 
+##Známé problémy
+Starší verze PHP 5.3 mohou mít kvůli starší verzi OpenSSL problém s voláním EET serveru. V takovém případě může 
+pomoci vynucení použití curl pomocí `Config::setUseCurl(true)`.       
+
 ##Changelog
 - 0.0.1
     - první verze
@@ -31,3 +35,5 @@ spuštěním je třeba v souborech tests/_data/*.wsdl patřičně nastavit `soap
     - doplnění metody `Connector:sign()` pro podepsání účtenky bez odeslání
     - doplnění metody `Receipt::getPkpString()` pro získání PHP kódu v base64
     - drobné opravy překlepů, odstranění zbytečností.  
+- 0.0.3
+    - možnost použití curl místo SOAP

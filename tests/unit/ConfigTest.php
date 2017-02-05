@@ -32,7 +32,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 		$config = new Config($this->wsdl, $this->cert, $this->password);
 		$config->setTraceEnabled(false)
 			->setTimezone('UTC')
-			->setConnectionTimeout(5);
+			->setConnectionTimeout(5)
+			->setUseCurl(true);
 
 		$this->assertEquals($this->wsdl, $config->getWsdl());
 		$this->assertEquals($this->cert, $config->getCertificate());
@@ -40,5 +41,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($config->isTraceEnabled());
 		$this->assertEquals('UTC', $config->getTimezone());
 		$this->assertEquals(5, $config->getConnectionTimeout());
+		$this->assertTrue($config->isUseCurl());
 	}
 }

@@ -14,6 +14,10 @@ class ServerException extends \Exception {
 
 	const RESPONSE_TIMEOUT = -101;
 
+	const CURL_CONNECTION_FAILED = -102;
+
+	const CURL_EXCEPTION = -103;
+
 	const TEMP_PROCESS_ERROR = -1;
 
 	const PROCESS_VERIFICATION_ERROR = 0;

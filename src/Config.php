@@ -46,6 +46,11 @@ class Config {
 	private $timezone = 'Europe/Prague';
 
 	/**
+	 * @var bool true|false = use curl|native SOAP
+	 */
+	private $useCurl = false;
+
+	/**
 	 * sets mandatory options
 	 * $wsdl have to be local wsdl file (playground or production). Url of EET server does not work
 	 * @param string $wsdl path to WSDL file
@@ -159,4 +164,23 @@ class Config {
 		$this->timezone = (string)$timezone;
 		return $this;
 	}
+
+	/**
+	 * use curl or native SOAP
+	 * @return bool
+	 */
+	public function isUseCurl() {
+		return $this->useCurl;
+	}
+
+	/**
+	 * sets connection via curl instead of native SOAP
+	 * @param bool $useCurl
+	 * @return Config
+	 */
+	public function setUseCurl($useCurl) {
+		$this->useCurl = (bool)$useCurl;
+		return $this;
+	}
+
 }

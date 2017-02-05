@@ -2,7 +2,7 @@
 
 namespace ZdenekGebauer\Eet;
 
-class PlaygroundTest extends \PHPUnit_Framework_TestCase {
+class PlaygroundCurlTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * @var Connector
@@ -23,7 +23,8 @@ class PlaygroundTest extends \PHPUnit_Framework_TestCase {
 		);
 		$this->config->setConnectionTimeout(10)
 			->setTraceEnabled(true)
-			->setTimezone('Europe/Prague');
+			->setTimezone('Europe/Prague')
+			->setUseCurl(true);
 
 		$this->connector = new Connector($this->config);
 	}
@@ -33,8 +34,6 @@ class PlaygroundTest extends \PHPUnit_Framework_TestCase {
 
 	protected function tearDown() {
 	}
-
-	// tests
 
 	public function testSendSuccess() {
 		$receipt = new Receipt();
@@ -52,8 +51,8 @@ class PlaygroundTest extends \PHPUnit_Framework_TestCase {
 		$this->assertRegExp('/(\S){8}-(\S){4}-(\S){4}-(\S){4}-(\S){12}-ff/', $fik);
 		$this->assertEquals(array(), $this->connector->getServerWarnings());
 		$this->assertGreaterThan(0, $this->connector->getLastRequestDuration());
-		$this->assertContains('HTTP/1.1 200 OK', $this->connector->getLastRequestHeaders());
-		$this->assertContains('SOAPAction: "http://fs.mfcr.cz/eet/OdeslaniTrzby"', $this->connector->getLastRequestHeaders());
+		$this->assertContains('Host: pg.eet.cz', $this->connector->getLastRequestHeaders());
+		$this->assertContains('SOAPAction: http://fs.mfcr.cz/eet/OdeslaniTrzby', $this->connector->getLastRequestHeaders());
 		$this->assertContains('<?xml version="1.0" encoding="UTF-8"?>', $this->connector->getLastRequest());
 		$this->assertContains('<SOAP-ENV:Envelope', $this->connector->getLastRequest());
 		$this->assertContains('<wsse:Security', $this->connector->getLastRequest());
@@ -95,8 +94,8 @@ class PlaygroundTest extends \PHPUnit_Framework_TestCase {
 		}));
 
 		$this->assertGreaterThan(0, $this->connector->getLastRequestDuration());
-		$this->assertContains('HTTP/1.1 200 OK', $this->connector->getLastRequestHeaders());
-		$this->assertContains('SOAPAction: "http://fs.mfcr.cz/eet/OdeslaniTrzby"', $this->connector->getLastRequestHeaders());
+		$this->assertContains('Host: pg.eet.cz', $this->connector->getLastRequestHeaders());
+		$this->assertContains('SOAPAction: http://fs.mfcr.cz/eet/OdeslaniTrzby', $this->connector->getLastRequestHeaders());
 		$this->assertContains('<?xml version="1.0" encoding="UTF-8"?>', $this->connector->getLastRequest());
 		$this->assertContains('<SOAP-ENV:Envelope', $this->connector->getLastRequest());
 		$this->assertContains('<wsse:Security', $this->connector->getLastRequest());
