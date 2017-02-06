@@ -82,7 +82,7 @@ class SoapClient extends \SoapClient {
 		ini_set('default_socket_timeout', $this->responseTimeout);
 		$time = microtime(true);
 		if ($this->useCurl) {
-			$response = $this::doRequestCurl($request, $location, $action, $version, $one_way);
+			$response = $this->doRequestCurl($request, $location, $action, $version);
 		} else {
 			$response = parent::__doRequest($request, $location, $action, $version, $one_way);
 		}
@@ -121,7 +121,6 @@ class SoapClient extends \SoapClient {
 			'SOAPAction: "' . $action . '"',
 			'Content-Length: ' . strlen($request),
 		);
-		curl_setopt($curl, CURLOPT_VERBOSE, false);
 		curl_setopt($curl, CURLOPT_VERBOSE, false);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_POST, true);
