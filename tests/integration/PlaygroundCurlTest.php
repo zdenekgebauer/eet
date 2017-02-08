@@ -24,7 +24,8 @@ class PlaygroundCurlTest extends \PHPUnit_Framework_TestCase {
 		$this->config->setConnectionTimeout(10)
 			->setTraceEnabled(true)
 			->setTimezone('Europe/Prague')
-			->setUseCurl(true);
+			->setUseCurl(true)
+			->setCurlVerifySslPeer(false); // false if SSL certificate fail
 
 		$this->connector = new Connector($this->config);
 	}

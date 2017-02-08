@@ -36,6 +36,11 @@ class SoapClient extends \SoapClient {
 	private $useCurl = true;
 
 	/**
+	 * @var bool true|false = enable|disable verification of peer's certificate
+	 */
+	private $curlVerifySslPeer = true;
+
+	/**
 	 * @var string headers from last curl request
 	 */
 	private $lastRequestHeaders = '';
@@ -52,15 +57,19 @@ class SoapClient extends \SoapClient {
 	 * @param Signer $signer
 	 * @param int $responseTimeout timeout for the response from EET SOAP in seconds, minimal 2
 	 * @param bool $useCurl true/false = use curl/SOAP
+	 * @param bool $curlVerifySslPeer enable|disable verification of peer's certificate (if $useCurl is true)
 	 * @link http://php.net/manual/en/soapclient.soapclient.php
 	 */
-	public function __construct($wsdl, array $options, Signer $signer, $responseTimeout = 2, $useCurl = false) {
+	public function __construct(
+		$wsdl, array $options, Signer $signer, $responseTimeout = 2, $useCurl = false, $curlVerifySslPeer = true
+	) {
 		$this->signer = $signer;
 		$responseTimeout = (int)$responseTimeout;
 		$this->responseTimeout = ($responseTimeout > 2 ? $responseTimeout : 2);
 		$this->connectionTimeout = (isset($options['connection_timeout']) && (int)$options['connection_timeout'] > 2
 			? (int)$options['connection_timeout'] : 2);
 		$this->useCurl = (bool)$useCurl;
+		$this->curlVerifySslPeer = (bool)$curlVerifySslPeer;
 		parent::__construct($wsdl, $options);
 	}
 
@@ -114,7 +123,7 @@ class SoapClient extends \SoapClient {
 	private function doRequestCurl($request, $location, $action, $version) {
 		$curl = curl_init($location);
 		if ($curl === false) {
-			throw new ServerException('Curl failed', ServerException::CURL_CONNECTION_FAILED);
+			throw new ServerException(ServerException::CURL_CONNECTION_FAILED);
 		}
 		$headers = array(
 			'Content-Type: text/xml; charset=utf-8',
@@ -126,8 +135,8 @@ class SoapClient extends \SoapClient {
 		curl_setopt($curl, CURLOPT_POST, true);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $request);
 		curl_setopt($curl, CURLOPT_HEADER, $headers);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->curlVerifySslPeer);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, $this->curlVerifySslPeer ? 2 : 0);
 		curl_setopt($curl, CURLINFO_HEADER_OUT, true);
 		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->connectionTimeout);
 		curl_setopt($curl, CURLOPT_TIMEOUT, $this->responseTimeout);
@@ -145,7 +154,7 @@ class SoapClient extends \SoapClient {
 			$errorMessage = curl_error($curl);
 			$errorNumber  = curl_errno($curl);
 			curl_close($curl);
-			throw new ServerException($errorNumber . ':' . $errorMessage, ServerException::CURL_EXCEPTION);
+			throw new ServerException(ServerException::CURL_EXCEPTION, $errorNumber . ':' . $errorMessage);
 		}
 
 		$headerLength = curl_getinfo($curl, CURLINFO_HEADER_SIZE);

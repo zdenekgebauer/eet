@@ -1,6 +1,7 @@
 #PHP klient pro EET
 
-Základní klient umožňující odeslat účtenku na EET server a získat FIK.
+Základní klient umožňující odeslat účtenku na EET server a získat FIK. Podporuje i PHP 5.3, nevyžaduje konverzi 
+certifikátů z PKCS12 do PEM formátu. Pro komunikaci s bránou umožňuje použít SOAP nebo curl.  
 
 Implementace vychází z dokumentace http://www.etrzby.cz/assets/cs/prilohy/EET_popis_rozhrani_v3.1.1.pdf.
 Přístupové údaje a certifikáty pro testovací prostředí jsou popsány 
@@ -26,7 +27,10 @@ spuštěním je třeba v souborech tests/_data/*.wsdl patřičně nastavit `soap
 
 ##Známé problémy
 Starší verze PHP 5.3 mohou mít kvůli starší verzi OpenSSL problém s voláním EET serveru. V takovém případě může 
-pomoci vynucení použití curl pomocí `Config::setUseCurl(true)`.       
+pomoci vynucení použití curl pomocí `Config::setUseCurl(true)`. Při tomto způsobu se může objevit problém  
+s ověřením certifikátu, jeho příčinou je zpravidla chybějící nebo zastaralý certifikát v nastavení `curl.cainfo` 
+v php.ini. Certifikáty jsou ke stažení na https://curl.haxx.se/docs/caextract.html. Není-li možné opravit toto 
+nastavení, je v krajním případě možné kontrolu certifikátu vyřadit pomocí `Config::setCurlVerifySslPeer(false)`.        
 
 ##Changelog
 - 0.0.1
@@ -37,3 +41,6 @@ pomoci vynucení použití curl pomocí `Config::setUseCurl(true)`.
     - drobné opravy překlepů, odstranění zbytečností.  
 - 0.0.3
     - možnost použití curl místo SOAP
+- 0.0.4
+    - možnost potlačit kontrolu SSL certifikátu při použití curl
+    - oprava výjimek při použití curl

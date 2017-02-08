@@ -39,12 +39,14 @@ class ServerException extends \Exception {
 	/**
 	 * construct the exception
 	 * @param int $code
+	 * @param string $message
 	 * @param \Exception|null $previous
 	 */
-	public function __construct($code, \Exception $previous = null) {
+	public function __construct($code, $message = '', \Exception $previous = null) {
 		$names = array(
 			self::NO_RESPONSE => 'EET server did not respond',
 			self::RESPONSE_TIMEOUT => 'EET server did not respond within specified time',
+			self::CURL_CONNECTION_FAILED => 'Curl connection failed',
 			self::TEMP_PROCESS_ERROR => 'Docasna technicka chyba zpracovani – odeslete prosim datovou zpravu pozdeji',
 			self::PROCESS_VERIFICATION_ERROR => 'Datovou zpravu evidovane trzby v overovacim modu se podarilo zpracovat',
 			self::INVALID_XML_ENCODING => 'Kodovani XML neni platne',
@@ -55,7 +57,8 @@ class ServerException extends \Exception {
 			self::MESSAGE_TOO_BIG => 'Datova zprava je prilis velka',
 			self::PROCESS_ERROR => 'Datova zprava nebyla zpracovana kvuli technicke chybe nebo chybe dat'
 		);
-		$message = isset($names[$code]) ? $names[$code] : 'Undefined error from server:' . $code;
-		parent::__construct($message, $code, $previous);
+		$exceptionMessage = isset($names[$code]) ? $names[$code]
+			: ($message === '' ? 'Undefined error from server:' . $code : $message);
+		parent::__construct($exceptionMessage, $code, $previous);
 	}
 }

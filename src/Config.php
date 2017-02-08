@@ -51,6 +51,11 @@ class Config {
 	private $useCurl = false;
 
 	/**
+	 * @var bool true|false = verify|don't verify peer's certificate
+	 */
+	private $curlVerifySslPeer = true;
+
+	/**
 	 * sets mandatory options
 	 * $wsdl have to be local wsdl file (playground or production). Url of EET server does not work
 	 * @param string $wsdl path to WSDL file
@@ -182,5 +187,26 @@ class Config {
 		$this->useCurl = (bool)$useCurl;
 		return $this;
 	}
+
+	/**
+	 * verify or do not verify server certificate
+	 * @return bool
+	 */
+	public function isCurlVerifySslPeer() {
+		return $this->curlVerifySslPeer;
+	}
+
+	/**
+	 * enable or disable verification of server certificate
+	 * disable only when cannot fixed curl CA certificate on server
+	 * @param bool $curlVerifySslPeer
+	 * @return Config
+	 */
+	public function setCurlVerifySslPeer($curlVerifySslPeer) {
+		$this->curlVerifySslPeer = (bool)$curlVerifySslPeer;
+		return $this;
+	}
+
+
 
 }

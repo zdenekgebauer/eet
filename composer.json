@@ -1,7 +1,7 @@
 {
     "name": "zdenekgebauer/eet",
     "type": "library",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "EET client (www.etrzby.cz)",
     "homepage": "https://github.com/zdenekgebauer/eet",
     "license": "WTFPL",
