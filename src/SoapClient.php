@@ -65,9 +65,9 @@ class SoapClient extends \SoapClient {
 	) {
 		$this->signer = $signer;
 		$responseTimeout = (int)$responseTimeout;
-		$this->responseTimeout = ($responseTimeout > 2 ? $responseTimeout : 2);
-		$this->connectionTimeout = (isset($options['connection_timeout']) && (int)$options['connection_timeout'] > 2
-			? (int)$options['connection_timeout'] : 2);
+		$this->responseTimeout = $responseTimeout > 2 ? $responseTimeout : 2;
+		$this->connectionTimeout = isset($options['connection_timeout']) && (int)$options['connection_timeout'] > 2
+			? (int)$options['connection_timeout'] : 2;
 		$this->useCurl = (bool)$useCurl;
 		$this->curlVerifySslPeer = (bool)$curlVerifySslPeer;
 		parent::__construct($wsdl, $options);

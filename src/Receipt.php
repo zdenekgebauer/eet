@@ -158,21 +158,22 @@ class Receipt {
 	 * @throws ClientException
 	 */
 	public function validate() {
-		if (preg_match('/^CZ[0-9]{8,10}$/', $this->getDicPoplatnika()) !== 1) {
+		$matches = array();
+		if (preg_match('/^CZ[0-9]{8,10}$/', $this->getDicPoplatnika(), $matches, 0, 0) !== 1) {
 			throw new ClientException('neplatne DIC poplatnika', ClientException::INVALID_DIC);
 		}
 		if ($this->getDicPoverujicihoPoplatnika() !== ''
-						&& preg_match('/^CZ[0-9]{8,10}$/', $this->getDicPoverujicihoPoplatnika()) !== 1
+						&& preg_match('/^CZ[0-9]{8,10}$/', $this->getDicPoverujicihoPoplatnika(), $matches, 0, 0) !== 1
 		) {
 			throw new ClientException('neplatne DIC poverujiciho poplatnika', ClientException::INVALID_DIC);
 		}
-		if (preg_match('/^[1-9][0-9]{0,5}$/', $this->getIdProvozovny()) !== 1) {
+		if (preg_match('/^[1-9][0-9]{0,5}$/', $this->getIdProvozovny(), $matches, 0, 0) !== 1) {
 			throw new ClientException('neplatne ID provozovny', ClientException::INVALID_ID_PROVOZOVNY);
 		}
-		if (preg_match('/^[0-9a-zA-Z\.,:;\/#\-_ ]{1,20}$/', $this->getIdPokladny()) !== 1) {
+		if (preg_match('/^[0-9a-zA-Z\.,:;\/#\-_ ]{1,20}$/', $this->getIdPokladny(), $matches, 0, 0) !== 1) {
 			throw new ClientException('neplatne ID pokladniho zarizeni', ClientException::INVALID_ID_POKLADNY);
 		}
-		if (preg_match('/^[0-9a-zA-Z\.,:;\/#\-_ ]{1,25}$/', $this->getPoradoveCislo()) !== 1) {
+		if (preg_match('/^[0-9a-zA-Z\.,:;\/#\-_ ]{1,25}$/', $this->getPoradoveCislo(), $matches, 0, 0) !== 1) {
 			throw new ClientException('neplatne poradove cislo', ClientException::INVALID_PORADOVE_CISLO);
 		}
 	}
@@ -623,7 +624,7 @@ class Receipt {
 	 * @return Receipt
 	 */
 	public function setRezim($rezim) {
-		if (in_array($rezim, array(self::REZIM_TRZBY_BEZNY, self::REZIM_TRZBY_ZJEDNODUSENY))) {
+		if (in_array($rezim, array(self::REZIM_TRZBY_BEZNY, self::REZIM_TRZBY_ZJEDNODUSENY, true))) {
 			$this->rezim = $rezim;
 		}
 		return $this;

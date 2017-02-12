@@ -52,7 +52,7 @@ class Connector {
 	public function send(Receipt $receipt) {
 		$this->serverWarnings = array();
 		$receipt
-			->setUuid(self::getUuid())
+			->setUuid($this->getUuid())
 			->setDatumOdeslani(new \DateTime('now', new \DateTimeZone($this->config->getTimezone())))
 			->validate();
 		$this->createSoapClient();
@@ -62,7 +62,7 @@ class Connector {
 			$this->parseResponse($response, $receipt);
 		} catch (\Exception $exception) {
 			if (stripos($exception->getMessage(), 'Error Fetching http headers') !== false
-							&& ($this->soapClient->getDuration() / 1000) > $this->config->getResponseTimeout()
+							&& $this->soapClient->getDuration() / 1000 > $this->config->getResponseTimeout()
 			) {
 				throw new ServerException(ServerException::RESPONSE_TIMEOUT);
 			}
@@ -78,7 +78,7 @@ class Connector {
 	public function sign(Receipt $receipt) {
 		$this->serverWarnings = array();
 		$receipt
-			->setUuid(self::getUuid())
+			->setUuid($this->getUuid())
 			->setDatumOdeslani(new \DateTime('now', new \DateTimeZone($this->config->getTimezone())))
 			->validate();
 
@@ -91,17 +91,17 @@ class Connector {
 			$receipt->getIdPokladny(),
 			$receipt->getPoradoveCislo(),
 			$receipt->getDatumTrzby()->format('c'),
-			self::formatAmount($receipt->getCelkovaTrzba())
+			$this->formatAmount($receipt->getCelkovaTrzba())
 		);
-		$receipt->setPkp($objKey->signData(join('|', $signedData)))
-			->setBkp(wordwrap(substr(sha1($receipt->getPkp()), 0, 40), 8, '-', true));
+		$receipt->setPkp($objKey->signData(implode('|', $signedData)))
+			->setBkp(wordwrap(substr(sha1($receipt->getPkp(), false), 0, 40), 8, '-', true));
 	}
 
 	/**
 	 * UUID v4
 	 * @return string
 	 */
-	private static function getUuid() {
+	private function getUuid() {
 		return sprintf(
 			'%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 			// 32 bits for "time_low"
@@ -162,7 +162,7 @@ class Connector {
 	 * @param float $amount
 	 * @return string
 	 */
-	private static function formatAmount($amount) {
+	private function formatAmount($amount) {
 		return number_format($amount, 2, '.', '');
 	}
 
@@ -181,20 +181,20 @@ class Connector {
 		$data['id_pokl'] = $receipt->getIdPokladny();
 		$data['porad_cis'] = $receipt->getPoradoveCislo();
 		$data['dat_trzby'] = $receipt->getDatumTrzby()->format('c');
-		$data['celk_trzba'] = self::formatAmount($receipt->getCelkovaTrzba());
-		$data['zakl_nepodl_dph'] = self::formatAmount($receipt->getZakladNepodlehajiciDph());
-		$data['zakl_dan1'] = self::formatAmount($receipt->getZakladDan1());
-		$data['dan1'] = self::formatAmount($receipt->getDan1());
-		$data['zakl_dan2'] = self::formatAmount($receipt->getZakladDan2());
-		$data['dan2'] = self::formatAmount($receipt->getDan2());
-		$data['zakl_dan3'] = self::formatAmount($receipt->getZakladDan3());
-		$data['dan3'] = self::formatAmount($receipt->getDan3());
-		$data['cest_sluz'] = self::formatAmount($receipt->getCestovniSluzba());
-		$data['pouzit_zboz1'] = self::formatAmount($receipt->getPouziteZbozi1());
-		$data['pouzit_zboz2'] = self::formatAmount($receipt->getPouziteZbozi2());
-		$data['pouzit_zboz3'] = self::formatAmount($receipt->getPouziteZbozi3());
-		$data['urceno_cerp_zuct'] = self::formatAmount($receipt->getUrcenoCerpaniZuctovani());
-		$data['cerp_zuct'] = self::formatAmount($receipt->getCerpaniZuctovani());
+		$data['celk_trzba'] = $this->formatAmount($receipt->getCelkovaTrzba());
+		$data['zakl_nepodl_dph'] = $this->formatAmount($receipt->getZakladNepodlehajiciDph());
+		$data['zakl_dan1'] = $this->formatAmount($receipt->getZakladDan1());
+		$data['dan1'] = $this->formatAmount($receipt->getDan1());
+		$data['zakl_dan2'] = $this->formatAmount($receipt->getZakladDan2());
+		$data['dan2'] = $this->formatAmount($receipt->getDan2());
+		$data['zakl_dan3'] = $this->formatAmount($receipt->getZakladDan3());
+		$data['dan3'] = $this->formatAmount($receipt->getDan3());
+		$data['cest_sluz'] = $this->formatAmount($receipt->getCestovniSluzba());
+		$data['pouzit_zboz1'] = $this->formatAmount($receipt->getPouziteZbozi1());
+		$data['pouzit_zboz2'] = $this->formatAmount($receipt->getPouziteZbozi2());
+		$data['pouzit_zboz3'] = $this->formatAmount($receipt->getPouziteZbozi3());
+		$data['urceno_cerp_zuct'] = $this->formatAmount($receipt->getUrcenoCerpaniZuctovani());
+		$data['cerp_zuct'] = $this->formatAmount($receipt->getCerpaniZuctovani());
 		$data['rezim'] = $receipt->getRezim();
 		return $data;
 	}
