@@ -171,6 +171,8 @@ class Connector {
 	 * @param Receipt $receipt
 	 * @return array
 	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+	 * @SuppressWarnings(PHPMD.NPathComplexity)
 	 */
 	private function prepareData(Receipt $receipt) {
 		$data = array('dic_popl' => $receipt->getDicPoplatnika());
@@ -182,19 +184,45 @@ class Connector {
 		$data['porad_cis'] = $receipt->getPoradoveCislo();
 		$data['dat_trzby'] = $receipt->getDatumTrzby()->format('c');
 		$data['celk_trzba'] = $this->formatAmount($receipt->getCelkovaTrzba());
-		$data['zakl_nepodl_dph'] = $this->formatAmount($receipt->getZakladNepodlehajiciDph());
-		$data['zakl_dan1'] = $this->formatAmount($receipt->getZakladDan1());
-		$data['dan1'] = $this->formatAmount($receipt->getDan1());
-		$data['zakl_dan2'] = $this->formatAmount($receipt->getZakladDan2());
-		$data['dan2'] = $this->formatAmount($receipt->getDan2());
-		$data['zakl_dan3'] = $this->formatAmount($receipt->getZakladDan3());
-		$data['dan3'] = $this->formatAmount($receipt->getDan3());
-		$data['cest_sluz'] = $this->formatAmount($receipt->getCestovniSluzba());
-		$data['pouzit_zboz1'] = $this->formatAmount($receipt->getPouziteZbozi1());
-		$data['pouzit_zboz2'] = $this->formatAmount($receipt->getPouziteZbozi2());
-		$data['pouzit_zboz3'] = $this->formatAmount($receipt->getPouziteZbozi3());
-		$data['urceno_cerp_zuct'] = $this->formatAmount($receipt->getUrcenoCerpaniZuctovani());
-		$data['cerp_zuct'] = $this->formatAmount($receipt->getCerpaniZuctovani());
+		if ($receipt->getZakladNepodlehajiciDph() !==  0) {
+			$data['zakl_nepodl_dph'] = $this->formatAmount($receipt->getZakladNepodlehajiciDph());
+		}
+		if ($receipt->getZakladDan1() !== 0) {
+			$data['zakl_dan1'] = $this->formatAmount($receipt->getZakladDan1());
+		}
+		if ($receipt->getDan1() !== 0) {
+			$data['dan1'] = $this->formatAmount($receipt->getDan1());
+		}
+		if ($receipt->getZakladDan2() !== 0) {
+			$data['zakl_dan2'] = $this->formatAmount($receipt->getZakladDan2());
+		}
+		if ($receipt->getDan2() !== 0) {
+			$data['dan2'] = $this->formatAmount($receipt->getDan2());
+		}
+		if ($receipt->getZakladDan3() !== 0) {
+			$data['zakl_dan3'] = $this->formatAmount($receipt->getZakladDan3());
+		}
+		if ($receipt->getDan3() !== 0) {
+			$data['dan3'] = $this->formatAmount($receipt->getDan3());
+		}
+		if ($receipt->getCestovniSluzba() !== 0) {
+			$data['cest_sluz'] = $this->formatAmount($receipt->getCestovniSluzba());
+		}
+		if ($receipt->getPouziteZbozi1() !== 0) {
+			$data['pouzit_zboz1'] = $this->formatAmount($receipt->getPouziteZbozi1());
+		}
+		if ($receipt->getPouziteZbozi2() !== 0) {
+			$data['pouzit_zboz2'] = $this->formatAmount($receipt->getPouziteZbozi2());
+		}
+		if ($receipt->getPouziteZbozi3() !== 0) {
+			$data['pouzit_zboz3'] = $this->formatAmount($receipt->getPouziteZbozi3());
+		}
+		if ($receipt->getUrcenoCerpaniZuctovani() !== 0) {
+			$data['urceno_cerp_zuct'] = $this->formatAmount($receipt->getUrcenoCerpaniZuctovani());
+		}
+		if ($receipt->getCerpaniZuctovani() !== 0) {
+			$data['cerp_zuct'] = $this->formatAmount($receipt->getCerpaniZuctovani());
+		}
 		$data['rezim'] = $receipt->getRezim();
 		return $data;
 	}

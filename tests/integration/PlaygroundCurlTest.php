@@ -71,6 +71,7 @@ class PlaygroundCurlTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSendWarning() {
+		$this->config->setCurlVerifySslPeer(false);
 		$receipt = new Receipt();
 		$receipt
 			->setPrvniZaslani(true)
