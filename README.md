@@ -44,3 +44,5 @@ nastavení, je v krajním případě možné kontrolu certifikátu vyřadit pomo
 - 0.0.4
     - možnost potlačit kontrolu SSL certifikátu při použití curl
     - oprava výjimek při použití curl
+- 0.0.5
+    - vynechání prázdných údajů z datové zprávy

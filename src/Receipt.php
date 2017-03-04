@@ -71,72 +71,72 @@ class Receipt {
 	/**
 	 * @var float Celková částka tržby
 	 */
-	private $celkovaTrzba = 0;
+	private $celkovaTrzba = 0.0;
 
 	/**
 	 * @var float Celková částka plnění osvobozených od DPH, ostatních plnění
 	 */
-	private $zakladNepodlehajiciDph = 0;
+	private $zakladNepodlehajiciDph = 0.0;
 
 	/**
 	 * @var float Celkový základ daně se základní sazbou DPH
 	 */
-	private $zakladDan1 = 0;
+	private $zakladDan1 = 0.0;
 
 	/**
 	 * @var float Celková DPH se základní sazbou
 	 */
-	private $dan1 = 0;
+	private $dan1 = 0.0;
 
 	/**
 	 * @var float Celkový základ daně s první sníženou sazbou DPH
 	 */
-	private $zakladDan2 = 0;
+	private $zakladDan2 = 0.0;
 
 	/**
 	 * @var float Celková DPH s první sníženou sazbou
 	 */
-	private $dan2 = 0;
+	private $dan2 = 0.0;
 
 	/**
 	 * @var float Celkový základ daně s druhou sníženou
 	 */
-	private $zakladDan3 = 0;
+	private $zakladDan3 = 0.0;
 
 	/**
 	 * @var float Celková DPH s druhou sníženou sazbou
 	 */
-	private $dan3 = 0;
+	private $dan3 = 0.0;
 
 	/**
 	 * @var float Celková částka v režimu DPH pro cestovní službu
 	 */
-	private $cestovniSluzba = 0;
+	private $cestovniSluzba = 0.0;
 
 	/**
 	 * @var float Celková částka v režimu DPH pro prodej použitého zboží se základní sazbou
 	 */
-	private $pouziteZbozi1 = 0;
+	private $pouziteZbozi1 = 0.0;
 
 	/**
 	 * @var float Celková částka v režimu DPH pro prodej použitého zboží s první sníženou sazbou
 	 */
-	private $pouziteZbozi2 = 0;
+	private $pouziteZbozi2 = 0.0;
 
 	/**
 	 * @var float Celková částka v režimu DPH pro prodej použitého zboží s druhou sníženou sazbou
 	 */
-	private $pouziteZbozi3 = 0;
+	private $pouziteZbozi3 = 0.0;
 
 	/**
 	 * @var float Celková částka plateb určená k následnému čerpání nebo zúčtování
 	 */
-	private $urcenoCerpaniZuctovani = 0;
+	private $urcenoCerpaniZuctovani = 0.0;
 
 	/**
 	 * @var float Celková částka plateb, které jsou následným čerpáním nebo zúčtováním platby
 	 */
-	private $cerpaniZuctovani = 0;
+	private $cerpaniZuctovani = 0.0;
 
 	/**
 	 * @var int Režim tržby
@@ -444,7 +444,7 @@ class Receipt {
 	 * @return Receipt
 	 */
 	public function setZakladDan2($zakladDan2) {
-		$this->zakladDan2 = $zakladDan2;
+		$this->zakladDan2 = (float)$zakladDan2;
 		return $this;
 	}
 
@@ -480,7 +480,7 @@ class Receipt {
 	 * @return Receipt
 	 */
 	public function setZakladDan3($zakladDan3) {
-		$this->zakladDan3 = $zakladDan3;
+		$this->zakladDan3 = (float)$zakladDan3;
 		return $this;
 	}
 
